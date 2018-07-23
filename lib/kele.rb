@@ -14,9 +14,21 @@ class Kele
   
     def get_me
         response = self.class.get(api_url("users/me"), headers: { "authorization" => @auth_token })
-        @user = JSON.parse(response.body)
+        JSON.parse(response.body)
         
-    end      
+    end
+    
+    def get_mentor_availability(mentor_id)
+        response = self.class.get(api_url("mentors/#{mentor_id}/student_availability"), headers: { "authorization" => @auth_token }).to_a
+        available = []
+        response.each do |timeslot|
+            if timeslot["booked"] == nil
+                available.push(timeslot)
+            end
+        end
+        puts available
+    end  
+    
 
   private
 
