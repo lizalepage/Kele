@@ -29,7 +29,11 @@ class Kele
             end
         end
         puts available
-    end  
+    end
+    
+    
+    
+    
     
 
   private
