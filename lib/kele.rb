@@ -29,7 +29,34 @@ class Kele
             end
         end
         puts available
-    end  
+    end
+    
+    def get_messages(page = nil)
+        if page == nil
+            response = self.class.get(api_url("message_threads"),  headers: { "authorization" => @auth_token }) 
+            JSON.parse(response.body)
+        else
+            response = self.class.get(api_url("message_threads?page=#{page}"),  headers: { "authorization" => @auth_token }) 
+            JSON.parse(response.body)
+        end    
+        
+    
+    end
+    
+    def create_message(user_id, recipient_id, token = nil, subject, body)
+        response = self.class.post(api_url("messages"),
+            body: {
+                "sender": user_id,
+                "recipient_id": recipient_id,
+                "token": token,
+                "subject": subject,
+                "stripped_text": body
+            },
+            headers:{ "authorization" => @auth_token }) 
+        puts response    
+    
+    end    
+    
     
 
   private
